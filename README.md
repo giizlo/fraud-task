@@ -88,6 +88,16 @@ pip install -r requirements.txt
 ```
 
 ### 5.3 Запуск Python-конвейера
+
+**ВАЖНО:** Перед запуском основного конвейера необходимо скачать исходные данные RFSD. Скрипт автоматически проверит наличие файлов и скачает только отсутствующие. Это связано с ограничением размера загружаемых в  Git файлов в 100 Мб - вы не можете установить репозиторий вместе с датасетами, их там попросту нет.
+
+```bash
+# Шаг 0: Скачивание исходных данных RFSD (2020-2024)
+python scripts/download_rfsd_data.py
+```
+
+**Пошаговый запуск (рекомендуется для отладки):**
+
 ```bash
 # Шаг 1: Предобработка RFSD данных
 python scripts/rfsd_setting.py
@@ -97,6 +107,62 @@ python scripts/rfsd_nsd_eda.py
 
 # Шаг 3: Анализ аномалий и визуализация
 python scripts/cluster_analysing.py
+
+# Шаг 4: Дополнительные визуализации (опционально)
+python scripts/advanced_visualization.py
+```
+
+**ВАЖНО:** На каждом этапе дождитесь полного завершения скрипта и появления сообщения о успешном выполнении перед запуском следующего. Не прерывайте выполнение скриптов.
+
+**Автоматический запуск всех этапов (одной командой):**
+
+Создайте файл `run_pipeline.sh` и выполните его:
+
+```bash
+#!/bin/bash
+set -e
+
+echo "=========================================="
+echo "FRAUD-AUDIT ANALYSIS PIPELINE"
+echo "=========================================="
+
+echo "[1/5] Downloading RFSD data..."
+python scripts/download_rfsd_data.py
+
+echo ""
+echo "[2/5] Preprocessing RFSD data..."
+python scripts/rfsd_setting.py
+
+echo ""
+echo "[3/5] EDA and clustering..."
+python scripts/rfsd_nsd_eda.py
+
+echo ""
+echo "[4/5] Anomaly analysis..."
+python scripts/cluster_analysing.py
+
+echo ""
+echo "[5/5] Additional visualizations..."
+python scripts/advanced_visualization.py
+
+echo ""
+echo "=========================================="
+echo "PIPELINE COMPLETED SUCCESSFULLY"
+echo "=========================================="
+echo ""
+echo "Results available in:"
+echo "  - data/ (processed data)"
+echo "  - results/ (visualizations and CSV)"
+```
+
+Или выполните последовательно в PowerShell (Windows):
+
+```powershell
+python scripts/download_rfsd_data.py; 
+python scripts/rfsd_setting.py; 
+python scripts/rfsd_nsd_eda.py; 
+python scripts/cluster_analysing.py; 
+python scripts/advanced_visualization.py
 ```
 
 **Результаты выполнения:**
