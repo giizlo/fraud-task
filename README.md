@@ -116,7 +116,7 @@ python scripts/advanced_visualization.py
 
 **Автоматический запуск всех этапов (одной командой):**
 
-Создайте файл `run_pipeline.sh` и выполните его:
+Создайте файл `run_pipeline.sh` (`run_pipeline.bat` для windows) и выполните его:
 
 ```bash
 #!/bin/bash
